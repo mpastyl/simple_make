@@ -4,19 +4,17 @@ using namespace std;
 
 string Rule::evaluate(RuleSet& rules) 
 {
-    if (!dependencies.size())
+    
+    string res = "";
+    if (dependencies.size())
     {
-        return "Target: " + target + " evaluates to: " + command + "\n";
-    }
-    else
-    {
-        string res;
         for (auto dep: dependencies)
         {
             res += rules.findRule(dep).evaluate(rules);
         }
-        return res;
     }
+    res += "Target: " + target + " evaluates to: " + command + "\n";
+    return res;
 }
 
 void RuleSet::addRule(Rule rule)
@@ -51,6 +49,6 @@ int main()
     
 
 
-    cout << r3.evaluate(rules) << endl;
-    //cout << rules.findRule("target").evaluate(rules) << endl;
+    //cout << r1.evaluate(rules) << endl;
+    cout << rules.findRule("target").evaluate(rules) << endl;
 }
