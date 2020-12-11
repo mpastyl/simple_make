@@ -46,7 +46,7 @@ Rule& RuleSet::findRule(string target)
         }
     }
     //TODO: Need a better return value for when the target is not found
-    cout << "Could not solve target: " + target << endl;
+    cout << "Could not find rule for target: " + target << endl;
     exit(0);
 }
 

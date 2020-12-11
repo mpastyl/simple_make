@@ -30,7 +30,18 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
         //This line should contain target and deps
         string line = *lineIt;
         vector<string> split_column = tokenize(line, ":");
+        if (split_column.size() != 2)
+        {
+            cout << "malformed rule: " << line << endl;
+            return 0;
+        }
         string target = split_column[0];
+        
+        if (!target.size())
+        {
+            cout << "malformed rule, cant find target from rule:" << line << endl;
+            return 0;
+        }
         
         string depsRaw = split_column[1];
         vector<string> depList = tokenize(depsRaw, " ");
