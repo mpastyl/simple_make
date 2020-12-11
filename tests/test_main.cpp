@@ -35,12 +35,14 @@ protected:
         rules.addRule(r2);
         rules.addRule(r3);
         rules.addRule(r4);
+        rules.addRule(r5);
     }
     RuleSet rules = RuleSet();
     Rule r1 = Rule ("target", {"dep1", "dep2"}, "\tcmd1");
     Rule r2 = Rule ("dep1", {"dep3", "dep4"}, "\tcmd2");
     Rule r3 = Rule ("dep3", {""}, "\tcmd3");
-    Rule r4 = Rule ("dep4", {" "}, "\tcmd4");
+    Rule r4 = Rule ("dep4", {""}, "\tcmd4");
+    Rule r5 = Rule ("dep2", {""}, "\tcmd5");
 };
 
 
@@ -58,7 +60,7 @@ TEST_F(RuleSetTest, FindFirstTarget)
 
 TEST_F(RuleSetTest, EvaluationTests)
 {
-    string expected = "\tcmd3\n\tcmd4\n\tcmd2\n\tcmd1\n";
+    string expected = "\tcmd3\n\tcmd4\n\tcmd2\n\tcmd5\n\tcmd1\n";
     string firstTarget  = rules.getFirstTarget();
     EXPECT_EQ(rules.findRule(firstTarget).evaluate(rules), expected);
 }
