@@ -22,7 +22,33 @@ TEST_F(RuleTest, InitializationTest)
 {
     EXPECT_EQ(r1.getTarget(), "target");
     EXPECT_EQ(r2.getTarget(), "dep1");
+    EXPECT_EQ(r4.getTarget(), "dep2");
     
+}
+
+class RuleSetTest : public :: testing::Test
+{
+protected:
+    void SetUp() override
+    {
+        rules.addRule(r1);
+        rules.addRule(r2);
+        rules.addRule(r3);
+        rules.addRule(r4);
+    }
+    RuleSet rules = RuleSet();
+    Rule r1 = Rule ("target", {"dep1", "dep2"}, "\tcmd1");
+    Rule r2 = Rule ("dep1", {"dep3", "dep4"}, "\tcmd2");
+    Rule r3 = Rule ("dep3", {""}, "\tcmd3");
+    Rule r4 = Rule ("dep4", {" "}, "\tcmd4");
+};
+
+
+TEST_F(RuleSetTest, InitializationTest)
+{   
+    EXPECT_EQ(rules.findRule("dep1").getTarget(), "dep1");
+    EXPECT_EQ(rules.getFirstTarget(), "target");
+
 }
 
 int main(int argc, char **argv)

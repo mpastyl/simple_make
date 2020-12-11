@@ -12,7 +12,7 @@ string Rule::evaluate(RuleSet& rules)
                 res += rules.findRule(dep).evaluate(rules);
         }
     }
-    res += "Target: " + target + " evaluates to: " + command + "\n";
+    res += command + "\n";
     isEvaluated = true;
     return res;
 }
@@ -45,8 +45,9 @@ Rule& RuleSet::findRule(string target)
             return rule;
         }
     }
-    cout << "Could not solve dependency: " + target << endl;
-    return rules[0];
+    //TODO: Need a better return value for when the target is not found
+    cout << "Could not solve target: " + target << endl;
+    exit(0);
 }
 
 void RuleSet::printRuleSet()
