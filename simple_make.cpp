@@ -14,7 +14,7 @@ int main()
         return 0;
     }
 
-    rules.printRuleSet();
+    //rules.printRuleSet();
     Rule firstRule = rules.findRule(rules.getFirstTarget());
     cout << firstRule.evaluate(rules) << endl;
 }
