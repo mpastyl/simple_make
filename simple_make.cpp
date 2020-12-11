@@ -31,6 +31,10 @@ void Rule::printRule()
 
 void RuleSet::addRule(Rule rule)
 {
+    if (!rules.size())
+    {
+        firstTarget = rule.getTarget();
+    } 
     rules.push_back(rule);
 }
 
@@ -130,5 +134,6 @@ int main()
     }
 
     rules.printRuleSet();
-    cout << rules.findRule("target").evaluate(rules) << endl;
+    Rule firstRule = rules.findRule(rules.getFirstTarget());
+    cout << firstRule.evaluate(rules) << endl;
 }

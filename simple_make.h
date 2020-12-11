@@ -28,12 +28,14 @@ class Rule
 class RuleSet
 {
     public:
-        RuleSet() : rules({}) {};
+        RuleSet() : rules({}), firstTarget("") {};
         void addRule(Rule rule);
         Rule& findRule(string target);
         void printRuleSet();
+        string getFirstTarget() {return firstTarget;}
     private:
         vector<Rule> rules;
+        string firstTarget;
 };
 
 #endif //__SIMPLE_MAKE_H
