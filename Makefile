@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -O2 -Wall -std=c++11
-DEPS = simple_make.h
+DEPS = simple_make.h input_utils.h
 
 all: simple_make
 
@@ -9,7 +9,7 @@ all: simple_make
 
 .PHONY: clean
 
-simple_make: simple_make.o
+simple_make: simple_make.o Rules.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 clean: 
