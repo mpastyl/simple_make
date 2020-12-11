@@ -10,7 +10,8 @@ string Rule::evaluate(RuleSet& rules)
     {
         for (auto dep: dependencies)
         {
-            res += rules.findRule(dep).evaluate(rules);
+            if (dep.size())
+                res += rules.findRule(dep).evaluate(rules);
         }
     }
     res += "Target: " + target + " evaluates to: " + command + "\n";
@@ -51,7 +52,7 @@ vector<string> tokenize(string sRaw, string delimiter)
 }
 
 //Files "rules" with rules extracted from "lines". "lines" holds each line of the input.
-int createRulesetFromInput(vector<string>lines, RuleSet rules)
+int createRulesetFromInput(vector<string>lines, RuleSet& rules)
 {
     for (auto lineIt=lines.begin(); lineIt != lines.end(); lineIt++)
     {
@@ -78,9 +79,9 @@ int createRulesetFromInput(vector<string>lines, RuleSet rules)
             string command =  line;
             cout << "-----" << endl;
             cout << "Creating new rule: " << endl;
-            cout << "Target: " << target << endl;
+            cout << "Target:|" << target << "|" << endl;
             cout << "Dependencies: ";
-            for (auto dep: depList) cout << dep << " ";
+            for (auto dep: depList) cout << "|" << dep << "| ";
             cout << endl;
             cout << "Command: " << command << endl;  
             Rule new_rule = Rule(target, depList, command);
