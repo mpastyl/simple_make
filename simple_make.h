@@ -16,6 +16,7 @@ class Rule
         Rule(string target, vector<string> deps, string command) : target(target), dependencies(deps), command(command), isEvaluated(false), evaluatesTo("") {};
         string getTarget() {return target;}
         string evaluate(RuleSet&);
+        void printRule();
     private:
         string target;
         vector<string> dependencies;
@@ -30,6 +31,7 @@ class RuleSet
         RuleSet() : rules({}) {};
         void addRule(Rule rule);
         Rule& findRule(string target);
+        void printRuleSet();
     private:
         vector<Rule> rules;
 };
