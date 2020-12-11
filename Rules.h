@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_set>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class Rule
         //Rule() : target(""), dependencies({""}), command(""), isEvaluated(false), evaluatesTo("") {};
         Rule(string target, vector<string> deps, string command) : target(target), dependencies(deps), command(command), isEvaluated(false), evaluatesTo("") {};
         string getTarget() {return target;}
-        string evaluate(RuleSet&);
+        string evaluate(RuleSet&, unordered_set<string> = unordered_set<string>());
         void printRule();
     private:
         string target;

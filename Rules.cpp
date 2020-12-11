@@ -1,15 +1,23 @@
 #include "Rules.h"
 
-string Rule::evaluate(RuleSet& rules) 
+string Rule::evaluate(RuleSet& rules, unordered_set<string> visited) 
 {
     if (isEvaluated) return "";
+    //If we have already visited this target, there is a circular dependency
+    auto search = visited.find(target);
+    if (search != visited.end())
+    {
+        cout << "Deteced circular dependencies, aborting" << endl;
+        exit(0);
+    }
+    visited.insert(target);
     string res = "";
     if (dependencies.size())
     {
         for (auto dep: dependencies)
         {
             if (dep.size())
-                res += rules.findRule(dep).evaluate(rules);
+                res += rules.findRule(dep).evaluate(rules, visited);
         }
     }
     res += command + "\n";
