@@ -75,7 +75,7 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
     for (auto lineIt=lines.begin(); lineIt != lines.end(); lineIt++)
     {
         //TODO: ignore empty lines 
-
+        if (!(*lineIt).size() || (*lineIt) == "\n") continue; 
         //This line should contain target and deps
         string line = *lineIt;
         vector<string> split_column = tokenize(line, ":");
@@ -107,33 +107,28 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
     return 1;
 }
 
+vector<string> readFromStdin()
+{
+    string line;
+    vector<string> allLines;
+    while(getline(cin, line)){
+        allLines.push_back(line);
+    }
+    return allLines;
+}
+
 int main()
 {
-    string l1 = "target: dep1 dep2";
-    string l2 = "\tcmd1";
-    string l3 = "dep1: dep2";
-    string l4 = "\tcmd2";
-    string l5 = "dep2: ";
-    string l6 = "\tcmd3";
 
-    //Rule r1 = Rule("target1", {"dep1", "dep2"}, "cmd1");
-    //Rule r2 = Rule("dep1", {"dep2"}, "cmd2");
-    //Rule r3 = Rule("dep2", {}, "cmd3");
+    vector<string> allLines = readFromStdin();
 
     RuleSet rules = RuleSet();
-    if (!createRulesetFromInput({l1, l2, l3, l4, l5, l6}, rules))
+    if (!createRulesetFromInput(allLines, rules))
     {
         cout << "Malformed input, exiting" << endl;
         return 0;
     }
-    
-    //rules.addRule(r1);
-    //rules.addRule(r2);
-    //rules.addRule(r3);
-
-    
 
     rules.printRuleSet();
-    //cout << r1.evaluate(rules) << endl;
     cout << rules.findRule("target").evaluate(rules) << endl;
 }
