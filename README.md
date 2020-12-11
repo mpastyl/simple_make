@@ -20,4 +20,4 @@ It will read rules in  stdin until EOF, then will output the commands based on t
 
 Limitations
 ------------------------------
-No automatic variables and stuff like that.
+Will auto replace $@ with target but no other automatic variables.

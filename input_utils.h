@@ -1,6 +1,7 @@
 #ifndef __INPUT_UTILS_H
 #define __INPUT_UTILS_H
 
+#include <regex>
 #include "Rules.h"
 
 using namespace std;
@@ -57,6 +58,7 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
                 return 0;
             }
             string command =  line;
+            command = regex_replace(command, regex("\\$@"), target);
             Rule new_rule = Rule(target, depList, command);
             rules.addRule(new_rule);
         }

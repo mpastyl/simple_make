@@ -71,6 +71,7 @@ class InputTests : public ::testing::Test
 protected:
     RuleSet rules = RuleSet();
     vector<string> proper = {"target: dep1", "\tcmd1", "dep1: ", "\tcmd2"};
+    vector<string> proper_auto_var = {"target: dep1", "\tcmd1 $@", "dep1: ", "\tcmd2"};
     vector<string> proper_empty_lines = {"\n", 
                                         "target: dep1", 
                                         "\tcmd1", 
@@ -99,6 +100,14 @@ TEST_F(InputTests, MalformedInput)
     EXPECT_EQ(createRulesetFromInput(missing_target,rules), 0);
 }
 
+
+TEST_F(InputTests, AutoVar)
+{
+    createRulesetFromInput(proper_auto_var, rules);
+    string expected = "\tcmd2\n\tcmd1 target\n";
+    string firstTarget  = rules.getFirstTarget();
+    EXPECT_EQ(rules.findRule(firstTarget).evaluate(rules), expected);
+}
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
