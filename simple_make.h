@@ -12,15 +12,15 @@ class RuleSet;
 class Rule
 {
     public:
-        //Rule() : target(""), dependencies({""}), command(""), isEvalueted(false), evaluatesTo("") {};
-        Rule(string target, vector<string> deps, string command) : target(target), dependencies(deps), command(command), isEvalueted(false), evaluatesTo("") {};
+        //Rule() : target(""), dependencies({""}), command(""), isEvaluated(false), evaluatesTo("") {};
+        Rule(string target, vector<string> deps, string command) : target(target), dependencies(deps), command(command), isEvaluated(false), evaluatesTo("") {};
         string getTarget() {return target;}
         string evaluate(RuleSet&);
     private:
         string target;
         vector<string> dependencies;
         string command;
-        bool isEvalueted;
+        bool isEvaluated;
         string evaluatesTo;
 };
 

@@ -4,7 +4,7 @@ using namespace std;
 
 string Rule::evaluate(RuleSet& rules) 
 {
-    
+    if (isEvaluated) return "";
     string res = "";
     if (dependencies.size())
     {
@@ -14,6 +14,7 @@ string Rule::evaluate(RuleSet& rules)
         }
     }
     res += "Target: " + target + " evaluates to: " + command + "\n";
+    isEvaluated = true;
     return res;
 }
 
