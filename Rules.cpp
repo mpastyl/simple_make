@@ -41,17 +41,15 @@ void RuleSet::addRule(Rule rule)
     {
         firstTarget = rule.getTarget();
     } 
-    rules.push_back(rule);
+    rules[rule.getTarget()] = rule;
 }
 
 Rule& RuleSet::findRule(string target)
 {
-    for (auto& rule : rules)
+    auto search =  rules.find(target);
+    if (search != rules.end())
     {
-        if (rule.getTarget() == target)
-        {
-            return rule;
-        }
+        return search->second;
     }
     cerr << "Could not find rule for target: " + target << endl;
     exit(0);
@@ -61,6 +59,6 @@ void RuleSet::printRuleSet()
 {
     for (auto rule : rules){
         cout << "----" << endl;
-        rule.printRule();
+        rule.second.printRule();
     }
 }
