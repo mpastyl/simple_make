@@ -1,8 +1,9 @@
 #include "Rules.h"
 
-string Rule::evaluate(RuleSet& rules, unordered_set<string> visited) 
+string Rule::evaluate(RuleSet &rules, unordered_set<string> visited)
 {
-    if (isEvaluated) return "";
+    if (isEvaluated)
+        return "";
     //If we have already visited this target, there is a circular dependency
     auto search = visited.find(target);
     if (search != visited.end())
@@ -14,7 +15,7 @@ string Rule::evaluate(RuleSet& rules, unordered_set<string> visited)
     string res = "";
     if (dependencies.size())
     {
-        for (auto dep: dependencies)
+        for (auto dep : dependencies)
         {
             if (dep.size())
                 res += rules.findRule(dep).evaluate(rules, visited);
@@ -30,9 +31,10 @@ void Rule::printRule()
     cout << "Rule: " << endl;
     cout << "Target: " << target << endl;
     cout << "Dependencies: ";
-    for (auto dep: dependencies) cout << dep << " ";
+    for (auto dep : dependencies)
+        cout << dep << " ";
     cout << endl;
-    cout << "Command: " << command << endl;  
+    cout << "Command: " << command << endl;
 }
 
 void RuleSet::addRule(Rule rule)
@@ -40,13 +42,13 @@ void RuleSet::addRule(Rule rule)
     if (!rules.size())
     {
         firstTarget = rule.getTarget();
-    } 
+    }
     rules[rule.getTarget()] = rule;
 }
 
-Rule& RuleSet::findRule(string target)
+Rule &RuleSet::findRule(string target)
 {
-    auto search =  rules.find(target);
+    auto search = rules.find(target);
     if (search != rules.end())
     {
         return search->second;
@@ -57,7 +59,8 @@ Rule& RuleSet::findRule(string target)
 
 void RuleSet::printRuleSet()
 {
-    for (auto rule : rules){
+    for (auto rule : rules)
+    {
         cout << "----" << endl;
         rule.second.printRule();
     }
