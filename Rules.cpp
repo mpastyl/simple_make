@@ -7,7 +7,7 @@ string Rule::evaluate(RuleSet& rules, unordered_set<string> visited)
     auto search = visited.find(target);
     if (search != visited.end())
     {
-        cout << "Deteced circular dependencies, aborting" << endl;
+        cerr << "Deteced circular dependencies, aborting" << endl;
         exit(0);
     }
     visited.insert(target);
@@ -53,8 +53,7 @@ Rule& RuleSet::findRule(string target)
             return rule;
         }
     }
-    //TODO: Need a better return value for when the target is not found
-    cout << "Could not find rule for target: " + target << endl;
+    cerr << "Could not find rule for target: " + target << endl;
     exit(0);
 }
 

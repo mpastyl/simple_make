@@ -10,7 +10,7 @@ int main()
     RuleSet rules = RuleSet();
     if (!createRulesetFromInput(allLines, rules))
     {
-        cout << "Malformed input, exiting" << endl;
+        cerr << "Malformed input, exiting" << endl;
         return 0;
     }
 

@@ -52,6 +52,10 @@ TEST_F(RuleSetTest, FindRulesTest)
 
 }
 
+TEST_F(RuleSetTest, MissingRuleTest)
+{
+    EXPECT_EXIT(rules.findRule("NonExistingTarget").getTarget(), ::testing::ExitedWithCode(0), "Could not find rule for target: NonExistingTarget");
+}
 
 TEST_F(RuleSetTest, FindFirstTarget)
 {   
@@ -83,7 +87,9 @@ protected:
                                         "\n"};
     vector<string> proper_spaces = {"target: dep1      dep2", "\tcmd1", "dep1: ", "\tcmd2", "dep2: ", "\tcmd3"};
     vector<string> missing_command = {"target: dep1", "dep1: ", "\tcmd2"};    
+    vector<string> missing_last_command = {"target: dep1", "\tcmd1", "dep1: "};    
     vector<string> missing_target = {": dep1", "dep1: ", "\tcmd2"};
+    vector<string> circular = {"target: dep1", "\tcmd1", "dep1: target", "\tcmd2"};
 };
 
 
@@ -98,9 +104,14 @@ TEST_F(InputTests, MalformedInput)
 {
     EXPECT_EQ(createRulesetFromInput(missing_command,rules), 0);
     EXPECT_EQ(createRulesetFromInput(missing_target,rules), 0);
+    EXPECT_EQ(createRulesetFromInput(missing_last_command,rules), 0);
 }
 
-
+TEST_F(InputTests, CircularDependencies)
+{
+    createRulesetFromInput(circular, rules);
+    EXPECT_EXIT(rules.findRule(rules.getFirstTarget()).evaluate(rules), ::testing::ExitedWithCode(0), "Deteced circular dependencies, aborting");
+}
 TEST_F(InputTests, AutoVar)
 {
     createRulesetFromInput(proper_auto_var, rules);

@@ -26,21 +26,21 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
 {
     for (auto lineIt=lines.begin(); lineIt != lines.end(); lineIt++)
     {
-        //TODO: ignore empty lines 
+        //Ignore empty lines 
         if (!(*lineIt).size() || (*lineIt) == "\n") continue; 
         //This line should contain target and deps
         string line = *lineIt;
         vector<string> split_column = tokenize(line, ":");
         if (split_column.size() != 2)
         {
-            cout << "malformed rule: " << line << endl;
+            cerr << "malformed rule: " << line << endl;
             return 0;
         }
         string target = split_column[0];
         
         if (!target.size())
         {
-            cout << "malformed rule, cant find target from rule:" << line << endl;
+            cerr << "malformed rule, cant find target from rule:" << line << endl;
             return 0;
         }
         
@@ -48,13 +48,13 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
         vector<string> depList = tokenize(depsRaw, " ");
 
         //Moving to the next line, it should contain the command
-        if (lineIt++ != lines.end())
+        if (++lineIt != lines.end())
         {
             line =  *lineIt;
             if (line[0]!='\t')
             {
-                cout << "Should start with tab" << endl;
-                cout << "Got: " << line << endl;
+                cerr << "Should start with tab" << endl;
+                cerr << "Got: " << line << endl;
                 return 0;
             }
             string command =  line;
@@ -63,7 +63,7 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
             rules.addRule(new_rule);
         }
         else{
-            cout << "Missing last command" << endl;
+            cerr << "Missing last command" << endl;
             return 0;
         }
         
