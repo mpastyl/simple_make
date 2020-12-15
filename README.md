@@ -19,6 +19,4 @@ To run:
 It will read rules in  stdin until EOF, then will output the commands based on the order needed to resolve the first target. 
 If there are any circular dependencies it will detect them and abort.
 
-Limitations
-------------------------------
-Will auto replace $@ with target but no other automatic variables.
+It will also automatically replace $@, $< and $? with the appropriate variables.

@@ -76,6 +76,9 @@ protected:
     RuleSet rules = RuleSet();
     vector<string> proper = {"target: dep1", "\tcmd1", "dep1: ", "\tcmd2"};
     vector<string> proper_auto_var = {"target: dep1", "\tcmd1 $@", "dep1: ", "\tcmd2"};
+    vector<string> proper_auto_var_target_deps = {"target: $@.o", "\tcmd1 $@", "target.o: ", "\tcmd2"};
+    vector<string> proper_auto_var_first_dep = {"target: dep1", "\tcmd1 $<", "dep1: ", "\tcmd2"};
+    vector<string> proper_auto_var_all_deps = {"target: dep1 dep2", "\tcmd1 $?", "dep1: ", "\tcmd2", "dep2: ", "\tcmd3"};
     vector<string> proper_empty_lines = {"\n", 
                                         "target: dep1", 
                                         "\tcmd1", 
@@ -118,6 +121,24 @@ TEST_F(InputTests, AutoVar)
     string expected = "\tcmd2\n\tcmd1 target\n";
     string firstTarget  = rules.getFirstTarget();
     EXPECT_EQ(rules.findRule(firstTarget).evaluate(rules), expected);
+    
+    RuleSet rules2 = RuleSet();
+    createRulesetFromInput(proper_auto_var_target_deps, rules2);
+    expected = "\tcmd2\n\tcmd1 target\n";
+    firstTarget  = rules2.getFirstTarget();
+    EXPECT_EQ(rules2.findRule(firstTarget).evaluate(rules2), expected);
+
+    RuleSet rules3 = RuleSet();
+    createRulesetFromInput(proper_auto_var_first_dep, rules3);
+    expected = "\tcmd2\n\tcmd1 dep1\n";
+    firstTarget  = rules3.getFirstTarget();
+    EXPECT_EQ(rules3.findRule(firstTarget).evaluate(rules3), expected);
+    
+    RuleSet rules4 = RuleSet();
+    createRulesetFromInput(proper_auto_var_all_deps, rules4);
+    expected = "\tcmd2\n\tcmd3\n\tcmd1 dep1 dep2 \n";
+    firstTarget  = rules4.getFirstTarget();
+    EXPECT_EQ(rules4.findRule(firstTarget).evaluate(rules4), expected);
 }
 int main(int argc, char **argv)
 {

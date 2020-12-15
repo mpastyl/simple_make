@@ -59,6 +59,17 @@ int createRulesetFromInput(vector<string>lines, RuleSet& rules)
             }
             string command =  line;
             command = regex_replace(command, regex("\\$@"), target);
+            command = regex_replace(command, regex("\\$<"), depList[0]);
+            for (auto& dep : depList)
+            {
+                dep = regex_replace(dep, regex("\\$@"), target);
+            }
+            string all_deps = "";
+            for (auto& dep : depList)
+            {
+                all_deps += dep + " ";
+            }
+            command = regex_replace(command, regex("\\$\\?"), all_deps);
             Rule new_rule = Rule(target, depList, command);
             rules.addRule(new_rule);
         }
